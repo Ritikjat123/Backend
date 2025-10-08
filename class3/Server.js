@@ -1,16 +1,37 @@
-  //step1 import express
-  const express=require("express");
-console.log("hlw")
-  //step2 create instance of express
- const app=express();
-console.log("instance")
- //step3 start the server
- const PORT=4000;
- app.listen(PORT,(req,res)=>{
-    console.log(`server run on ${PORT} no`)
- })
+// step-1
+const express = require("express");
+require("dotenv").config();
+const ConnectDb = require("./configuration/ConnectDb.js")
+//step-2
+const app = express();
 
- //step 4 make the demo url
- app.get("/",(req,res)=>{
-     res.send("<h1>running </h1>")
- });
+
+// step-3
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+    console.log(`Server is running at ${port}`);
+})
+
+//step-4
+
+app.get("/", (req, res) => {
+    res.send(`<b>Home Page</b>`)
+})
+
+//step-5
+ConnectDb();
+
+
+
+// attach the middleware if you are passing data from the request kee body
+app.use(express.json());
+
+// step-6
+const AuthRoute = require("./routes/Authentication.js");
+app.use("/api/v1/auth", AuthRoute);
+
+
+
+
+
+
